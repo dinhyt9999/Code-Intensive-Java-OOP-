@@ -7,8 +7,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Random;
 
-import static java.lang.Math.*;
-
 public class GameWindow extends JFrame {
     private long lastTime=0;
     private GameCanvas gameCanvas;

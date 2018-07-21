@@ -72,7 +72,7 @@ public class GameWindow extends JFrame {
         while(true){
             long currentTime = System.nanoTime(); //số nano giây từ 1/1/1970 đến bây giờ
             if (currentTime - this.lastTime >= 17_000_000) {
-                this.gameCanvas.positionXStar = (this.gameCanvas.positionXStar+1796)%1800;
+                this.gameCanvas.positionXStar = (this.gameCanvas.positionXStar+4)%1800;
                 //this.gameCanvas.positionYStar = (this.gameCanvas.positionYStar+996)%1000;
                 if (tempX <= -1024)
                     tempX = 1020;

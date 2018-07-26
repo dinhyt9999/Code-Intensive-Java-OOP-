@@ -8,20 +8,34 @@ import java.awt.event.WindowEvent;
 import java.util.Random;
 
 public class GameWindow extends JFrame {
-    private long lastTime=0;
+    private long lastTime = 0;
+    private Random random = new Random();
     private GameCanvas gameCanvas;
 
-    public GameWindow(){
-        Random random = new Random();
+    public GameWindow() {
         this.setSize(1024, 600);
+        setupGameCanvas();
+        event();
+        this.setVisible(true);
+    }
+
+    private void setupGameCanvas() {
         this.gameCanvas = new GameCanvas();
         this.add(this.gameCanvas);
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(60);
-            }
-        });
+    }
+
+    private void playerMove() {
+        if (gameCanvas.player.x[0] < 0)
+            gameCanvas.player.x[0] = 1000;
+        if (gameCanvas.player.x[0] > 1000)
+            gameCanvas.player.x[0] = 0;
+        if (gameCanvas.player.y[0] < 21)
+            gameCanvas.player.y[0] = 600;
+        if (gameCanvas.player.y[0] > 600)
+            gameCanvas.player.y[0] = 21;
+    }
+
+    private void keyboardEvent() {
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -29,62 +43,53 @@ public class GameWindow extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                if ((e.getKeyCode() == KeyEvent.VK_LEFT)||(e.getKeyCode() == KeyEvent.VK_A)){
-                    gameCanvas.positionXPlayer = gameCanvas.positionXPlayer-10;
-                    if(gameCanvas.positionXPlayer <=0){
-                        gameCanvas.positionYPlayer = random.nextInt(590);
-                        gameCanvas.positionXPlayer = 1024;
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_A) {
+                    gameCanvas.player.x[0] -= gameCanvas.player.valocity;
+                    playerMove();
                 }
-                if ((e.getKeyCode() == KeyEvent.VK_RIGHT)||(e.getKeyCode() == KeyEvent.VK_D)){
-                    gameCanvas.positionXPlayer = gameCanvas.positionXPlayer+10;
-                    if(gameCanvas.positionXPlayer >=1024){
-                        gameCanvas.positionYPlayer = random.nextInt(590);
-                        gameCanvas.positionXPlayer = 0;
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_D) {
+                    gameCanvas.player.x[0] += gameCanvas.player.valocity;
+                    playerMove();
                 }
-                if ((e.getKeyCode() == KeyEvent.VK_UP)||(e.getKeyCode() == KeyEvent.VK_W)){
-                    gameCanvas.positionYPlayer = gameCanvas.positionYPlayer-10;
-                    if (gameCanvas.positionYPlayer <= 0)
-                    {
-                        gameCanvas.positionXPlayer = random.nextInt(1014);
-                        gameCanvas.positionYPlayer = 600;
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_W) {
+                    gameCanvas.player.y[0] -= gameCanvas.player.valocity;
+                    playerMove();
                 }
-                if ((e.getKeyCode() == KeyEvent.VK_DOWN)||(e.getKeyCode() == KeyEvent.VK_S)){
-                    gameCanvas.positionYPlayer = gameCanvas.positionYPlayer+10;
-                    if(gameCanvas.positionYPlayer >= 600){
-                        gameCanvas.positionXPlayer = random.nextInt(1014);
-                        gameCanvas.positionYPlayer = 0;
-                    }
+                if (e.getKeyCode() == KeyEvent.VK_S) {
+                    gameCanvas.player.y[0] += gameCanvas.player.valocity;
+                    playerMove();
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
+
             }
         });
-        this.setVisible(true);
     }
-    public void gameLoop(){
-        int tempX=gameCanvas.positionXEnemy;
-        int tempY=gameCanvas.positionYEnemy;
-        while(true){
-            long currentTime = System.nanoTime(); //số nano giây từ 1/1/1970 đến bây giờ
-            if (currentTime - this.lastTime >= 17_000_000) {
-                this.gameCanvas.positionXStar = (this.gameCanvas.positionXStar+4)%1800;
-                //this.gameCanvas.positionYStar = (this.gameCanvas.positionYStar+996)%1000;
-                if (tempX <= -1024)
-                    tempX = 1020;
-                else tempX -= 4;
-                if (tempY <= -600)
-                    tempY = 596;
-                else tempY -= 4;
-                this.gameCanvas.positionXEnemy = Math.abs(tempX)%1024;
-                this.gameCanvas.positionYEnemy = Math.abs(tempY)%600;
-                this.gameCanvas.renderAll();
-                lastTime = currentTime;
+
+        private void mouseEvent () {
+            this.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.exit(60);
+                }
+            });
+        }
+
+        private void event () {
+            this.mouseEvent();
+            this.keyboardEvent();
+        }
+
+        public void gameLoop () {
+            while (true) {
+                long currentTime = System.nanoTime();
+                if (currentTime - this.lastTime >= 17_000_000) {
+                    this.gameCanvas.runAll();
+                    this.gameCanvas.renderAll();
+                    lastTime = currentTime;
+                }
             }
         }
     }
-}

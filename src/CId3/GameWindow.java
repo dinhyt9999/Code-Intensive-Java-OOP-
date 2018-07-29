@@ -24,72 +24,66 @@ public class GameWindow extends JFrame {
         this.add(this.gameCanvas);
     }
 
-    private void playerMove() {
-        if (gameCanvas.player.x[0] < 0)
-            gameCanvas.player.x[0] = 1000;
-        if (gameCanvas.player.x[0] > 1000)
-            gameCanvas.player.x[0] = 0;
-        if (gameCanvas.player.y[0] < 21)
-            gameCanvas.player.y[0] = 600;
-        if (gameCanvas.player.y[0] > 600)
-            gameCanvas.player.y[0] = 21;
-    }
 
     private void keyboardEvent() {
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_W){
+                    gameCanvas.player.velocity.multiply(3);
+                }
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_A) {
-                    gameCanvas.player.x[0] -= gameCanvas.player.valocity;
-                    playerMove();
+                    gameCanvas.player.angle += 5;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_D) {
-                    gameCanvas.player.x[0] += gameCanvas.player.valocity;
-                    playerMove();
+                    gameCanvas.player.angle -= 5;
                 }
                 if (e.getKeyCode() == KeyEvent.VK_W) {
-                    gameCanvas.player.y[0] -= gameCanvas.player.valocity;
-                    playerMove();
+                    gameCanvas.player.velocity.multiply(3);
                 }
-                if (e.getKeyCode() == KeyEvent.VK_S) {
-                    gameCanvas.player.y[0] += gameCanvas.player.valocity;
-                    playerMove();
-                }
+//                if (e.getKeyCode() == KeyEvent.VK_S) {
+//                    gameCanvas.player.angle -= 5;
+//
+//                }
+                gameCanvas.player.velocity.set(new Vector2D(2.5f,0 ).rotate(gameCanvas.player.angle));
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_W){
+                    gameCanvas.player.velocity.multiply(0.33333333f);
+                }
 
             }
         });
     }
 
-        private void mouseEvent () {
-            this.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    System.exit(60);
-                }
-            });
-        }
+    private void mouseEvent() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.exit(60);
+            }
+        });
+    }
 
-        private void event () {
-            this.mouseEvent();
-            this.keyboardEvent();
-        }
+    private void event() {
+        this.mouseEvent();
+        this.keyboardEvent();
+    }
 
-        public void gameLoop () {
-            while (true) {
-                long currentTime = System.nanoTime();
-                if (currentTime - this.lastTime >= 17_000_000) {
-                    this.gameCanvas.runAll();
-                    this.gameCanvas.renderAll();
-                    lastTime = currentTime;
-                }
+    public void gameLoop() {
+        while (true) {
+            long currentTime = System.nanoTime();
+            if (currentTime - this.lastTime >= 17_000_000) {
+                this.gameCanvas.runAll();
+                this.gameCanvas.renderAll();
+                lastTime = currentTime;
             }
         }
     }
+}

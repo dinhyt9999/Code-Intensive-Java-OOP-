@@ -12,14 +12,13 @@ import java.util.Random;
 
 public class GameCanvas extends JPanel {
     //   private Star star;
+    private Background background = new Background();
     private List<Star> stars;
-    private Star star = new Star();
+    private Star star;
     private List<Enemy> enemies;
-    private Enemy enemy = new Enemy();
-    public Player player = new Player();
+    private Enemy enemy;
+    public Player player;
     private BufferedImage backBuffered;
-    public int positionXPlayer;
-    public int positionYPlayer;
     private int timeIntervalEnemy = 0;
     private int timeIntervalStar = 0;
     private Graphics graphics;
@@ -28,12 +27,11 @@ public class GameCanvas extends JPanel {
     private void creatStar() {
         if (this.timeIntervalStar == 30) {
             this.star = new Star();
-            this.star.x = 0;
-            this.star.y = this.random.nextInt(600);
+            this.star.position.set(1024, this.random.nextInt(600));
             this.star.image = this.loadImage("resources-rocket-master/resources-rocket-master/resources/images/star.png");
             this.star.width = 5;
             this.star.height = 5;
-            this.star.valocityx = 3;
+            this.star.velocity.set(this.random.nextInt(3) + 1, 0);
             this.stars.add(star);
             this.timeIntervalStar = 0;
         } else timeIntervalStar++;
@@ -42,43 +40,37 @@ public class GameCanvas extends JPanel {
     private void creatEnemy() {
         if (this.timeIntervalEnemy == 300) {
             this.enemy = new Enemy();
-            this.enemy.x = this.random.nextInt(1008);
-            this.enemy.y = this.random.nextInt(584);
+            this.enemy.position.set(this.random.nextInt(1024),this.random.nextInt(600));
             this.enemy.image = this.loadImage("resources-rocket-master/resources-rocket-master/resources/images/circle.png");
             this.enemy.width = 16;
             this.enemy.height = 16;
-            this.enemy.valocityx = 3;
-            this.enemy.valocityy = 3;
+            this.enemy.velocity.set(random.nextInt(3)+1,random.nextInt(3)+1);
+            this.enemy.velocity = enemy.velocity.normalize();
             this.enemies.add(enemy);
             this.timeIntervalEnemy = 0;
         } else timeIntervalEnemy++;
     }
 
-    private void creatPlayer() {
-        this.player.image = this.loadImage("resources-rocket-master/resources-rocket-master/resources/images/circle.png");
-        this.player.x[1] = player.x[0] + 24;
-        this.player.y[1] = player.y[0];
-        this.player.x[2] = player.x[0] + 12;
-        this.player.y[2] = player.y[0] + 21;
-        this.player.valocity = 10;
+    private void setupPlayer() {
+        this.player = new Player();
+        this.player.position.set(200,300);
+        this.player.velocity.set(2.5f,0);
     }
 
     public void runAll() {
         creatStar();
         creatEnemy();
-        creatPlayer();
+        this.player.run();
         this.stars.forEach(star -> star.run());
         this.enemies.forEach(enemy -> enemy.run());
     }
 
     public GameCanvas() {
-        this.player.x[0]=random.nextInt(1000);
-        this.player.y[0]=random.nextInt(576);
         this.setSize(1024, 600);
         setupBackBuffered();
         setupStar();
         setupEnemy();
-        creatPlayer();
+        setupCharacter();
         this.setVisible(true);
     }
 
@@ -90,14 +82,12 @@ public class GameCanvas extends JPanel {
         this.enemies = new ArrayList<>();
     }
 
+    private void setupCharacter(){
+        setupPlayer();
+    }
     private void setupBackBuffered() {
         this.backBuffered = new BufferedImage(1024, 600, BufferedImage.TYPE_INT_ARGB);
         this.graphics = this.backBuffered.getGraphics();
-    }
-
-    private void renderBackground() {
-        this.graphics.setColor(Color.BLACK);
-        this.graphics.fillRect(0, 0, 1024, 600);
     }
 
     @Override
@@ -106,11 +96,10 @@ public class GameCanvas extends JPanel {
     }
 
     public void renderAll() {
-        renderBackground();
+        background.render(graphics);
         this.enemies.forEach(enemy -> enemy.render(graphics));
         this.stars.forEach(star -> star.render(graphics));
-        if(this.player.x[0]!=1800)
-            this.player.render(graphics);
+        this.player.render(this.graphics);
         this.repaint();
     }
 
@@ -122,4 +111,3 @@ public class GameCanvas extends JPanel {
         }
     }
 }
-

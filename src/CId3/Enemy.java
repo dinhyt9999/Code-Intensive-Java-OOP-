@@ -1,56 +1,27 @@
 package CId3;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Enemy {
-    public BufferedImage image;
     public Vector2D position;
     public Vector2D velocity;
-    public int width;
-    public int height;
-    private Vector2D temp = new Vector2D(2,0);
-    private List<BulletEnemy> bulletEnemies;
-    private int timeIntervalBullet = 0;
+    private Renderer renderer;
+    private EnemyShoot enemyShoot;
 
     public Enemy() {
         this.position = new Vector2D();
         this.velocity = new Vector2D();
-        this.bulletEnemies = new ArrayList<>();
+        this.renderer = new ImageRenderer("resources-rocket-master/resources-rocket-master/resources/images/circle.png", 16, 16);
+        this.enemyShoot = new EnemyAttack();
     }
 
     public void run() {
         this.position = position.add(velocity);
-        this.shoot();
-    }
-
-    private void shoot() {
-        if (this.timeIntervalBullet == 25) {
-            BulletEnemy bulletEnemy = new BulletEnemy();
-            try {
-                bulletEnemy.image = ImageIO.read(new File("resources-rocket-master/resources-rocket-master/resources/images/circle.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            bulletEnemy.position.set((int) this.position.x, (int) this.position.y);
-            bulletEnemy.velocity.set(this.temp.x,this.temp.y);
-            this.temp = this.temp.rotate(15);
-            this.bulletEnemies.add(bulletEnemy);
-            this.timeIntervalBullet = 0;
-        } else {
-            this.timeIntervalBullet += 1;
-        }
-
-        this.bulletEnemies.forEach(bulletEnemy -> bulletEnemy.run());
+        this.enemyShoot.run(this);
     }
 
     public void render(Graphics graphics) {
-        graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, this.width, this.height, null);
-        this.bulletEnemies.forEach(bulletEnemy -> bulletEnemy.render(graphics));
+        this.renderer.render(graphics, this.position);
+        ((EnemyAttack) this.enemyShoot).bulletEnemies.forEach(bulletEnemy -> bulletEnemy.render(graphics));
     }
 }

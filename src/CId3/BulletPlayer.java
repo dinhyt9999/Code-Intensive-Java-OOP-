@@ -15,7 +15,7 @@ public class BulletPlayer {
         this.position.addUp(this.velocity);
     }
     public void render(Graphics graphics) {
-        graphics.fillOval((int)this.position.x,(int)this.position.y,5,5);
+        graphics.fillOval((int)this.position.x-2,(int)this.position.y-2,5,5);
 //        graphics.drawImage(this.image, (int) this.position.x, (int) this.position.y, 5, 5, null);
     }
 }

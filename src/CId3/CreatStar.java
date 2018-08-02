@@ -8,8 +8,8 @@ import java.util.Random;
 public class CreatStar {
     public List<Star> stars = new ArrayList<>();
     public Star star;
-    public Random random = new Random();
-    public FrameCounter frameCounter = new FrameCounter();
+    private Random random = new Random();
+    private FrameCounter frameCounter = new FrameCounter();
     public void run(){
         if (this.frameCounter.compare(30)) {
             this.star = new Star();

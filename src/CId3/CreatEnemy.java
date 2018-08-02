@@ -8,8 +8,8 @@ import java.util.Random;
 public class CreatEnemy {
     public List<Enemy> enemies = new ArrayList<>();
     public Enemy enemy;
-    public Random random = new Random();
-    public FrameCounter frameCounter = new FrameCounter();
+    private Random random = new Random();
+    private FrameCounter frameCounter = new FrameCounter();
 
     public void run() {
         if (this.frameCounter.compare(300)) {

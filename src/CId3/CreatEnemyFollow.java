@@ -7,13 +7,14 @@ import java.util.Random;
 
 public class CreatEnemyFollow {
     public List<EnemyFollow> enemyFollows = new ArrayList<>();
-    public FrameCounter frameCounter = new FrameCounter();
-    public Random random = new Random();
+    public EnemyFollow enemyFollow;
+    private FrameCounter frameCounter = new FrameCounter();
+    private Random random = new Random();
 
     public void run() {
         if (this.frameCounter.compare(300)) {
-            EnemyFollow enemyFollow = new EnemyFollow();
-            enemyFollow.position.set(random.nextInt(1024), random.nextInt(600));
+            this.enemyFollow = new EnemyFollow();
+            this.enemyFollow.position.set(random.nextInt(1024), random.nextInt(600));
             this.enemyFollows.add(enemyFollow);
         }
         this.frameCounter.run();

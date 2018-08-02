@@ -2,7 +2,7 @@ package CId3;
 
 
 public class FrameCounter {
-    public int timeInterval;
+    private int timeInterval;
 
     public FrameCounter() {
         this.timeInterval = 0;

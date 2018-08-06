@@ -1,6 +1,7 @@
 package CId3;
 
 import base.Vector2D;
+import game.player.KeyBoardEvent;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -24,7 +25,9 @@ public class GameWindow extends JFrame {
         this.add(this.gameCanvas);
     }
 
-
+    private void keyboardEvent(){
+        this.addKeyListener(KeyBoardEvent.instance);
+    }
 //    private void keyboardEvent() {
 //        this.addKeyListener(new KeyListener() {
 //            @Override
@@ -69,7 +72,7 @@ public class GameWindow extends JFrame {
 
     private void event() {
         this.mouseEvent();
-        //this.keyboardEvent();
+        this.keyboardEvent();
     }
 
     public void gameLoop() {

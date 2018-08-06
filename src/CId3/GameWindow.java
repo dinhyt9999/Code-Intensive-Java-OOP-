@@ -25,41 +25,9 @@ public class GameWindow extends JFrame {
         this.add(this.gameCanvas);
     }
 
-    private void keyboardEvent(){
+    private void keyboardEvent() {
         this.addKeyListener(KeyBoardEvent.instance);
     }
-//    private void keyboardEvent() {
-//        this.addKeyListener(new KeyListener() {
-//            @Override
-//            public void keyTyped(KeyEvent e) {
-//                if(e.getKeyCode()==KeyEvent.VK_W){
-//                    gameCanvas.player.velocity.multiply(3);
-//                }
-//            }
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                gameCanvas.player.velocity.set(new Vector2D(2.5f,0 ).rotate(gameCanvas.player.angle));
-//                if (e.getKeyCode() == KeyEvent.VK_A) {
-//                    gameCanvas.player.angle += 5;
-//                }
-//                if (e.getKeyCode() == KeyEvent.VK_D) {
-//                    gameCanvas.player.angle -= 5;
-//                }
-//                if (e.getKeyCode() == KeyEvent.VK_W) {
-//                    gameCanvas.player.velocity.multiply(2.5f);
-//                }
-//            }
-//
-//            @Override
-//            public void keyReleased(KeyEvent e) {
-//                if(e.getKeyCode() == KeyEvent.VK_W){
-//                    gameCanvas.player.velocity.set(new Vector2D(2.5f,0).rotate(gameCanvas.player.angle));
-//                }
-//
-//            }
-//        });
-//    }
 
     private void mouseEvent() {
         this.addWindowListener(new WindowAdapter() {

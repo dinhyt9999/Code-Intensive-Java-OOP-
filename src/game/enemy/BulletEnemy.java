@@ -1,22 +1,20 @@
-package CId3;
+package game.enemy;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import base.GameObject;
+import base.Vector2D;
+import renderer.ImageRenderer;
 
-public class BulletEnemy {
-    public Vector2D position;
+public class BulletEnemy extends GameObject {
     public Vector2D velocity;
-    private Renderer renderer;
 
     public BulletEnemy() {
-        this.position = new Vector2D();
         this.velocity = new Vector2D();
         this.renderer = new ImageRenderer("resources-rocket-master/resources-rocket-master/resources/images/circle.png",5,5);
     }
+
+    @Override
     public void run() {
+        super.run();
         this.position.addUp(this.velocity);
-    }
-    public void render(Graphics graphics) {
-        this.renderer.render(graphics,this.position);
     }
 }

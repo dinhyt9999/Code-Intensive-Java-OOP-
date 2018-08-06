@@ -1,36 +1,31 @@
 package CId3;
 
+import base.GameObject;
+import base.GameObjectManager;
+import game.background.Background;
+import game.enemy.CreatEnemy;
+import game.enemyfollow.CreatEnemyFollow;
+import game.player.Player;
+import game.star.CreatStar;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class GameCanvas extends JPanel {
-    private Background background = new Background();
     public Player player;
     private BufferedImage backBuffered;
     private Graphics graphics;
-    private CreatStar creatStar = new CreatStar();
-    private CreatEnemy creatEnemy = new CreatEnemy();
-    private CreatEnemyFollow creatEnemyFollow = new CreatEnemyFollow();
 
     private void setupPlayer() {
         this.player = new Player();
         this.player.position.set(200, 300);
-        this.player.velocity.set(2.5f, 0);
+        GameObjectManager.instance.add(player);
     }
 
     public void runAll() {
-        this.creatStar.run();
-        if (this.creatStar.stars.size() > 100) {
-            this.creatStar.stars.remove(0);
-        }
-        this.creatEnemy.run();
-        if (this.creatEnemy.enemies.size() > 10) {
-            this.creatEnemy.enemies.remove(0);
-        }
-        this.creatEnemyFollow.run();
-        this.creatEnemyFollow.updateVelocity(this.player.position);
-        this.player.run();
+        GameObjectManager.instance.list.forEach(gameObject -> gameObject.updateVelocity());
+        GameObjectManager.instance.runAll();
     }
 
     public GameCanvas() {
@@ -41,7 +36,11 @@ public class GameCanvas extends JPanel {
     }
 
     private void setupCharacter() {
+        GameObjectManager.instance.add(new Background());
         setupPlayer();
+        GameObjectManager.instance.add(new CreatEnemyFollow());
+        GameObjectManager.instance.add(new CreatStar());
+        GameObjectManager.instance.add(new CreatEnemy());
     }
 
     private void setupBackBuffered() {
@@ -55,12 +54,7 @@ public class GameCanvas extends JPanel {
     }
 
     public void renderAll() {
-        background.render(graphics);
-        this.creatStar.render(graphics);
-        this.creatEnemy.render(graphics);
-        this.creatEnemyFollow.render(graphics);
-        this.player.render(graphics);
+        GameObjectManager.instance.renderAll(graphics);
         this.repaint();
     }
-
 }

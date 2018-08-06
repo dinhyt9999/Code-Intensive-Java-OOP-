@@ -1,4 +1,4 @@
-package CId3;
+package game.enemy;
 
 public interface EnemyShoot {
 

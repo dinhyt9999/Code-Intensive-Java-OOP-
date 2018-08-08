@@ -1,11 +1,8 @@
 package CId3;
 
-import base.Vector2D;
-import game.player.KeyBoardEvent;
+import input.KeyBoardEvent;
 
 import javax.swing.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -44,7 +41,7 @@ public class GameWindow extends JFrame {
     }
 
     public void gameLoop() {
-        while (true) {
+        while (gameCanvas.player.isAlive) {
             long currentTime = System.nanoTime();
             if (currentTime - this.lastTime >= 17_000_000) {
                 this.gameCanvas.runAll();

@@ -1,15 +1,15 @@
-package game.player;
+package input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyBoardEvent implements KeyListener {
-    public int angle;
-    public float coefficient;
+    public boolean isA = false;
+    public boolean isW = false;
+    public boolean isD = false;
+    public boolean isSpace = false;
     static public KeyBoardEvent instance = new KeyBoardEvent();
     private KeyBoardEvent(){
-        this.angle = 0;
-        this.coefficient = 1;
     }
     @Override
     public void keyTyped(KeyEvent e) {
@@ -18,22 +18,33 @@ public class KeyBoardEvent implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        this.coefficient = 1;
         if(e.getKeyCode() == KeyEvent.VK_A){
-            angle += 5;
+            isA = true;
         }
         if (e.getKeyCode()==KeyEvent.VK_D){
-            angle -= 5;
+            isD = true;
         }
         if(e.getKeyCode()==KeyEvent.VK_W){
-            coefficient = 2;
+            isW = true;
+        }
+        if(e.getKeyCode()==KeyEvent.VK_SPACE){
+            isSpace = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode()==KeyEvent.VK_W){
-            coefficient = 1;
+            isW = false;
+        }
+        if(e.getKeyCode()==KeyEvent.VK_D){
+            isD = false;
+        }
+        if(e.getKeyCode()==KeyEvent.VK_A){
+            isA = false;
+        }
+        if(e.getKeyCode()==KeyEvent.VK_SPACE){
+            isSpace = false;
         }
     }
 }

@@ -1,6 +1,5 @@
 package CId3;
 
-import base.GameObject;
 import base.GameObjectManager;
 import game.background.Background;
 import game.enemy.CreatEnemy;
@@ -25,7 +24,6 @@ public class GameCanvas extends JPanel {
     }
 
     public void runAll() {
-        GameObjectManager.instance.list.forEach(gameObject -> gameObject.updateVelocity());
         GameObjectManager.instance.runAll();
     }
 

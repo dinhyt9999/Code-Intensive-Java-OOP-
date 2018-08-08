@@ -1,7 +1,18 @@
 package game.player;
 
-public interface PlayerShoot {
+import base.Attribute;
+import base.GameObjectManager;
+import input.KeyBoardEvent;
 
-    void run(Player player);//generid
+public class PlayerShoot implements Attribute<Player> {
 
+    @Override
+    public void run(Player gameObject) {
+        if (KeyBoardEvent.instance.isSpace) {
+            BulletPlayer bulletPlayer = new BulletPlayer();
+            bulletPlayer.position.set(gameObject.position);
+            bulletPlayer.velocity.set(gameObject.velocity.copy().multiply(1.5f));
+            GameObjectManager.instance.add(bulletPlayer);
+        }
+    }
 }

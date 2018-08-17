@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 
 public class CreatEnemyFollow extends GameObject {
-    private List<EnemyFollow> enemyFollows = new ArrayList<>();
     private FrameCounter frameCounter = new FrameCounter();
     private Random random = new Random();
 
@@ -17,10 +16,8 @@ public class CreatEnemyFollow extends GameObject {
     public void run() {
         super.run();
         if (this.frameCounter.compare(300)) {
-            EnemyFollow enemyFollow = new EnemyFollow();
+            EnemyFollow enemyFollow = GameObjectManager.instance.recycle(EnemyFollow.class);
             enemyFollow.position.set(random.nextInt(1024), random.nextInt(600));
-            GameObjectManager.instance.add(enemyFollow);
-            enemyFollows.add(enemyFollow);
         }
         this.frameCounter.run();
     }

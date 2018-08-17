@@ -4,6 +4,7 @@ import base.GameObjectManager;
 import game.background.Background;
 import game.enemy.CreatEnemy;
 import game.enemyfollow.CreatEnemyFollow;
+import game.player.CreatShield;
 import game.player.Player;
 import game.star.CreatStar;
 
@@ -40,6 +41,7 @@ public class GameCanvas extends JPanel {
         GameObjectManager.instance.add(new CreatEnemyFollow());
         GameObjectManager.instance.add(new CreatStar());
         GameObjectManager.instance.add(new CreatEnemy());
+        GameObjectManager.instance.add(new CreatShield());
     }
 
     private void setupBackBuffered() {

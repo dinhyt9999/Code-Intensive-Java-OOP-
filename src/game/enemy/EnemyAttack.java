@@ -17,10 +17,9 @@ public class EnemyAttack implements EnemyShoot {
         if (this.frameCounter.compare(160)) {
             for (this.i = 1; this.i <= 10; this.i++) {
                 angle += 36;
-                BulletEnemy bulletEnemy = new BulletEnemy();
+                BulletEnemy bulletEnemy = GameObjectManager.instance.recycle(BulletEnemy.class);
                 bulletEnemy.position.set(enemy.position);
                 bulletEnemy.velocity.set(enemy.velocity.copy().multiply(1.5f).rotate(angle));
-                GameObjectManager.instance.add(bulletEnemy);
             }
         }
         this.frameCounter.run();

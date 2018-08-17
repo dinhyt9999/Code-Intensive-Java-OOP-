@@ -11,13 +11,11 @@ public class GameObject{
     public boolean isAlive = true;
     public Vector2D position;
     public Renderer renderer;
-    public BoxCollider boxCollider;
     public List<Attribute> attributes;
 
     public GameObject() {
         this.position = new Vector2D();
         this.attributes = new ArrayList<>();
-        this.boxCollider = new BoxCollider(0,0);
     }
 
     public void run() {

@@ -20,7 +20,7 @@ public class Player extends GameObject implements PhysicBody {
 
     public Player() {
         this.velocity = new Vector2D();
-        this.boxCollider = new BoxCollider(16, 20);
+        this.boxCollider = new BoxCollider(12, 16);
         this.renderer = new PolygonRenderer(Color.RED,
                 new Vector2D(),
                 new Vector2D(0, 16),
@@ -55,9 +55,6 @@ public class Player extends GameObject implements PhysicBody {
                 die.velocity.set(this.velocity.copy().multiply(1.5f).rotate(angle));
             }
             this.isAlive = false;
-        }
-        if(gameObject instanceof Shield && this.HP==1){
-            this.HP+=3;
         }
     }
 }

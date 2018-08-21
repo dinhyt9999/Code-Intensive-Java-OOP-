@@ -1,29 +1,33 @@
 package game.star;
 
-import base.FrameCounter;
+import Action.Action;
+import Action.WaitAction;
 import base.GameObject;
+import Action.ActionAdapter;
 import base.GameObjectManager;
-import game.star.Star;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import Action.SequenceAction;
+import Action.RepeatActionForever;
 import java.util.Random;
 
 public class CreatStar extends GameObject {
-    public List<Star> stars = new ArrayList<>();
-    public Star star;
     private Random random = new Random();
-    private FrameCounter frameCounter = new FrameCounter();
 
-    @Override
-    public void run() {
-        super.run();
-        if (this.frameCounter.compare(30)) {
-            this.star = GameObjectManager.instance.recycle(Star.class);
-            this.star.position.set(1024, this.random.nextInt(600));
-            this.star.velocity.set(this.random.nextInt(3) + 1, 0);
-        }
-        this.frameCounter.run();
+    public CreatStar(){
+        this.configAction();
+    }
+    public void configAction(){
+        Action waitAction = new WaitAction(180);
+        Action createAction = new ActionAdapter() {
+            @Override
+            public boolean run(GameObject owner){
+                Star star = GameObjectManager.instance.recycle(Star.class);
+                star.position.set(1024,random.nextInt(600));
+                star.velocity.set(random.nextInt(3)+1,0);
+                return true;
+            }
+        };
+        Action sequenceAction = new SequenceAction(waitAction, createAction);
+        Action repeatAction = new RepeatActionForever(sequenceAction);
+        this.addAction(repeatAction);
     }
 }

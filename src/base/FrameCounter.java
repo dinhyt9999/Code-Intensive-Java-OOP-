@@ -5,7 +5,7 @@ public class FrameCounter {
     private int timeInterval;
 
     public FrameCounter() {
-        this.timeInterval = 0;
+        this.timeInterval = 1;
     }
 
     public boolean compare(int timeInterval){

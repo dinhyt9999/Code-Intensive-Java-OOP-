@@ -23,7 +23,7 @@ public class Shield extends GameObject implements PhysicBody {
         this.position = new Vector2D(200, 100);
         this.velocity = new Vector2D(1, 1);
         this.boxCollider = new BoxCollider(40, 40);
-        this.HP = 3;
+        this.HP = 20;
         this.runHitObject = new RunHitObject(Player.class,Enemy.class,EnemyFollow.class,BulletEnemy.class);
         this.renderer = new OvalRenderer(Color.WHITE, 40, 40);
     }
@@ -44,13 +44,14 @@ public class Shield extends GameObject implements PhysicBody {
 
     @Override
     public void getHit(GameObject gameObject) {
+        System.out.println(this.HP);
         if (gameObject instanceof Player) {
+            this.HP = 3;
             this.position.set(gameObject.position.x-20,gameObject.position.y -20);
             this.velocity.set(((Player) gameObject).velocity);
-
         }
         if (gameObject instanceof Enemy || gameObject instanceof EnemyFollow || gameObject instanceof BulletEnemy){
-                this.HP --;
+            this.HP --;
         }
         if (this.HP == 0){
             this.isAlive = false;

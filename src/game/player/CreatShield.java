@@ -11,7 +11,7 @@ public class CreatShield extends GameObject {
     public void run(){
         if(frameCounter.compare(1000)){
             Shield shield = GameObjectManager.instance.recycle(Shield.class);
-            shield.HP = 3;
+            shield.HP = 20;
             this.position = new Vector2D();
             System.out.println(shield.HP);
         }
